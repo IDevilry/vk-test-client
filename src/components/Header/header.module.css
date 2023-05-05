@@ -1,0 +1,75 @@
+.active {
+  color: #167ee6;
+}
+
+.active:hover {
+  color: #1081f2c6;
+}
+
+a {
+  color: rgb(39, 39, 39);
+  text-decoration: none;
+  transition: 200ms linear;
+}
+
+a:hover {
+  color: rgba(52, 52, 52, 0.895);
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: white;
+  box-shadow: 2px 4px 9px -2px rgba(168, 168, 168, 0.93);
+  -webkit-box-shadow: 2px 4px 9px -2px rgba(168, 168, 168, 0.93);
+  -moz-box-shadow: 2px 4px 9px -2px rgba(168, 168, 168, 0.93);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navList {
+  display: flex;
+}
+
+.navList a {
+  padding: 0 30px;
+  border-right: 0.5px solid rgb(176, 176, 176);
+}
+
+.button {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  outline: none;
+  background-color: #1976d2;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  transition: 300ms linear;
+}
+
+.userAvatar {
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+
+.user {
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-right: 0.5px solid rgb(176, 176, 176);
+}
+
+.right {
+  display: flex;
+  gap: 15px;
+}

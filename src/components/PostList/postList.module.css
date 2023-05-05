@@ -1,0 +1,8 @@
+.postList {
+  display: flex;
+  flex-direction: column;
+  max-width: 1170px;
+  margin: 30px auto;
+  padding: 25px 30px;
+  border-radius: 10px;
+}
