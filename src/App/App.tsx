@@ -5,6 +5,8 @@ import { Feed, Friends, Profile, SignIn, SignUp } from "../pages";
 
 import Layout from "../components/Layout/Layout";
 import PrivateWrapper from "../components/PrivateWrapper/PrivateWrapper";
+import Users from "../pages/Users/Users";
+import UserProfile from "../pages/UserProfile/UserProfile";
 
 const App: React.FC = () => {
   return (
@@ -39,13 +41,32 @@ const App: React.FC = () => {
             }
           />
           <Route
-            path="friends"
+            path="profile/:id"
             element={
               <PrivateWrapper>
-                <Friends />
+                <UserProfile />
               </PrivateWrapper>
             }
           />
+          <Route path="friends/">
+            <Route
+              path="my"
+              element={
+                <PrivateWrapper>
+                  <Friends />
+                </PrivateWrapper>
+              }
+            />
+            <Route
+              path="search"
+              element={
+                <PrivateWrapper>
+                  <Users />
+                </PrivateWrapper>
+              }
+            />
+            <Route />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,9 +1,10 @@
 import { FC, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import cn from "./header.module.css";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
 import { fetchCurrentUser } from "../../redux/asyncThunks/user/fetchCurrentUser";
+
+import cn from "./header.module.css";
 
 const Header: FC = () => {
   const user = useAppSelector((state) => state.currentUser.user);
@@ -37,9 +38,15 @@ const Header: FC = () => {
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? cn.active : "")}
-            to="/friends"
+            to="/friends/search"
           >
-            Друзья
+            Люди
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? cn.active : "")}
+            to="/friends/my"
+          >
+            <p>Мои друзья</p>
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? cn.active : "")}

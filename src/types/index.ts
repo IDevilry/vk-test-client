@@ -4,6 +4,19 @@ export interface IPostList {
   countOnPage: number;
 }
 
+export interface IFriendList {
+  totalCount: number;
+  user: {
+    _id?: string;
+    friends: IUser[];
+  };
+}
+
+export interface IUserById {
+  totalCount: number;
+  user: IUser;
+}
+
 export interface IUser {
   _id: string;
   user_first_name: string;
@@ -15,6 +28,7 @@ export interface IUser {
   institution?: string;
   description?: string;
   profile_photo?: string;
+  friends?: IUser[];
 }
 
 export interface IPost {

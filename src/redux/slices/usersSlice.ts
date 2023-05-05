@@ -1,22 +1,24 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../../types";
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchAllUsers } from "../asyncThunks/user/fetchAllUsers";
+import { type IUser } from "../../types";
 
 interface UserState {
-  user: IUser[];
+  users: IUser[];
 }
 
 const initialState: UserState = {
-  user: [],
+  users: [],
 };
 
 const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {
-    fetchUser(state, action: PayloadAction<IUser>) {},
-    update(state, action) {},
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
+      state.users = action.payload;
+    });
   },
 });
 
-export const { update } = usersSlice.actions;
 export default usersSlice.reducer;

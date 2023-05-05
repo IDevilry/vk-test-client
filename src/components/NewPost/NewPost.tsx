@@ -19,6 +19,11 @@ const NewPost: FC = () => {
     if (newPost) {
       dispatch(fetchNewPost(newPost));
     }
+    setNewPost({
+      content: "",
+      image: "",
+      title: "",
+    });
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -49,6 +54,14 @@ const NewPost: FC = () => {
             required
             placeholder="Что нового?"
           />
+          <input
+            name="image"
+            onChange={handleChange}
+            type="url"
+            required
+            placeholder="Ссылка на изображение (необязательно)"
+          />
+
           <button type="submit">Создать</button>
         </form>
       </div>

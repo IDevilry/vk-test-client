@@ -45,6 +45,11 @@ const Profile: FC = () => {
   return (
     <div className="container">
       <div className={cn.userBlock}>
+        <img
+          src={user.profile_photo ?? default_user_photo}
+          alt="User Avatar"
+          className={cn.userAvatar}
+        />
         <div className={cn.text}>
           <h2>
             {user.user_first_name} {user.user_last_name}
@@ -107,14 +112,8 @@ const Profile: FC = () => {
             )}
           </form>
         </div>
-        <img
-          src={user.profile_photo ?? default_user_photo}
-          alt="User Avatar"
-          className={cn.userAvatar}
-        />
       </div>
       <div className={cn.posts}>
-        
         <NewPost />
         <PostList totalCount={myPosts.totalCount} posts={myPosts.posts} />
       </div>

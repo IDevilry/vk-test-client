@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../../types";
+import { type IUser } from "../../types";
 import { fetchCurrentUser } from "../asyncThunks/user/fetchCurrentUser";
 import { fetchUpdateUser } from "../asyncThunks";
 
