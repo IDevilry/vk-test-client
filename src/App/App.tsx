@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, type FC } from "react";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {  Routes, Route, BrowserRouter } from "react-router-dom";
 import {
   Feed,
   Friends,
