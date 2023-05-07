@@ -6,31 +6,36 @@ import {
   type ChangeEventHandler,
 } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
-import { fetchCurrentUser } from "../../redux/asyncThunks/user/fetchCurrentUser";
 import { fetchUpdateUser } from "../../redux/asyncThunks";
 import { fetchMyPosts } from "../../redux/asyncThunks/post/fetchPosts";
 
+import { PostList, NewPost } from "../../components";
+
 import { type IUserToUpdate } from "../../types";
 
-import cn from "./profile.module.css";
 import default_user_photo from "../../assets/default_user_photo.jpg";
-import PostList from "../../components/PostList/PostList";
-import NewPost from "../../components/NewPost/NewPost";
+
+import cn from "./profile.module.css";
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Profile: FC = () => {
   const user = useAppSelector((state) => state.currentUser.user);
   const myPosts = useAppSelector((state) => state.posts.myPosts);
   const dispatch = useAppDispatch();
   const [updateUser, setUpdateUser] = useState<IUserToUpdate>();
+  const [image, setImage] = useState<File>();
   useEffect(() => {
-    dispatch(fetchCurrentUser());
     dispatch(fetchMyPosts());
   }, [dispatch]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (updateUser) {
-      dispatch(fetchUpdateUser(updateUser));
+
+    if (updateUser || image) {
+      dispatch(
+        fetchUpdateUser({ ...updateUser, _id: user._id, profile_photo: image })
+      );
     }
   };
 
@@ -42,14 +47,30 @@ const Profile: FC = () => {
     });
   };
 
+  const handleImage: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const file = e.target.files?.[0];
+    setImage(file);
+  };
+
   return (
     <div className="container">
       <div className={cn.userBlock}>
-        <img
-          src={user.profile_photo ?? default_user_photo}
-          alt="User Avatar"
-          className={cn.userAvatar}
-        />
+        <div className={cn.avatarBlock}>
+          <img
+            src={
+              user.profile_photo
+                ? `${API_URL}/${user.profile_photo}`
+                : default_user_photo
+            }
+            alt="User Avatar"
+            className={cn.userAvatar}
+          />
+          <label className={cn.avatarBlockText}>
+            Изменить аватарку
+            <input type="file" accept="image/*" onChange={handleImage} />
+          </label>
+        </div>
+
         <div className={cn.text}>
           <h2>
             {user.user_first_name} {user.user_last_name}
@@ -105,11 +126,11 @@ const Profile: FC = () => {
                 onChange={handleChange}
               />
             </label>
-            {updateUser && (
+            {updateUser || image ? (
               <button className={cn.button} type="submit">
                 Изменить данные
               </button>
-            )}
+            ) : null}
           </form>
         </div>
       </div>

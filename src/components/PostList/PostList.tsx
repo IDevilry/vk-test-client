@@ -1,20 +1,14 @@
 import Post from "../Post/Post";
 
 import { type FC } from "react";
-import { type IPost } from "../../types";
+import { type IPostListProps } from "./postList.props";
 
-import cn from "./postList.module.css"
+import cn from "./postList.module.css";
 
-export interface IPostListProps {
-  posts: IPost[];
-  totalCount: number;
-  countOnPage?: number;
-}
-
-const PostList: FC<IPostListProps> = ({countOnPage, posts, totalCount}) => {
+const PostList: FC<IPostListProps> = ({ countOnPage, posts, totalCount }) => {
   return (
     <div className={cn.postList}>
-      {posts?.map(post => (
+      {posts?.map((post) => (
         <Post key={post?._id} post={post} />
       ))}
     </div>

@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../../types";
-import { fetchFriends } from "../asyncThunks/user/fetchFriends";
-import { toggleFriend } from "../asyncThunks/user/toggleFriend";
+import { fetchFriends } from "../../asyncThunks";
+import { toggleFriend } from "../../asyncThunks";
+
+import { type IUser } from "../../../types";
 
 interface FriendsState {
   friends: IUser[];

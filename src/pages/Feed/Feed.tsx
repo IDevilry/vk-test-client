@@ -1,25 +1,28 @@
-import { type FC, useEffect } from "react";
+/* eslint-disable array-callback-return */
+import { PostList } from "../../components";
 
-import { fetchPosts } from "../../redux/asyncThunks/post/fetchPosts";
-import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
+import { useAppSelector } from "../../hooks/typedRedux";
 
-import PostList from "../../components/PostList/PostList";
-import NewPost from "../../components/NewPost/NewPost";
+import { type FC } from "react";
+import { type IPost } from "../../types";
+
 
 const Feed: FC = () => {
-  const posts = useAppSelector((state) => state.posts.posts);
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
+  const friends = useAppSelector((state) => state.friends.friends);
+
+  const collectFriendsPosts = () => {
+    const friendsPosts: IPost[] = [];
+    friends.map((friend) => {
+      friend.posts?.map((post) => {
+        friendsPosts.push(post);
+      });
+    });
+    return friendsPosts;
+  };
+  const friendsPosts = collectFriendsPosts();
   return (
     <div>
-      <NewPost />
-      <PostList
-        countOnPage={posts.countOnPage}
-        totalCount={posts.totalCount}
-        posts={posts.posts}
-      />
+      <PostList totalCount={friendsPosts.length} posts={friendsPosts} />
     </div>
   );
 };

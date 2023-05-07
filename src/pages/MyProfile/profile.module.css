@@ -67,3 +67,14 @@ label {
   font-size: 16px;
   font-weight: 500;
 }
+
+.avatarBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.avatarBlockText {
+  text-align: center;
+}

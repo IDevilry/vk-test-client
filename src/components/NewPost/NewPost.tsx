@@ -4,34 +4,42 @@ import {
   type ChangeEventHandler,
   useState,
 } from "react";
-import cn from "./newpost.module.css";
-import { type INewPost } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
 import { fetchNewPost } from "../../redux/asyncThunks/post/fetchNewPost";
+
+import { type INewPost } from "../../types";
+
+import cn from "./newpost.module.css";
 
 const NewPost: FC = () => {
   const { _id } = useAppSelector((state) => state.currentUser.user);
   const dispatch = useAppDispatch();
+
   const [newPost, setNewPost] = useState<INewPost>();
+  const [image, setNewImage] = useState<File | null>();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (newPost) {
-      dispatch(fetchNewPost(newPost));
-    }
-    setNewPost({
-      content: "",
-      image: "",
-      title: "",
-    });
+
+    const formData = new FormData();
+
+    formData.append("image", image || "");
+    formData.append("content", newPost?.content || "");
+    formData.append("title", newPost?.title || "");
+    formData.append("user", _id);
+
+    dispatch(fetchNewPost(formData));
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setNewPost({
-      ...newPost,
-      user: _id,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleFile: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    setNewImage(file);
   };
 
   return (
@@ -56,9 +64,9 @@ const NewPost: FC = () => {
           />
           <input
             name="image"
-            onChange={handleChange}
-            type="url"
-            required
+            onChange={handleFile}
+            accept="image/*"
+            type="file"
             placeholder="Ссылка на изображение (необязательно)"
           />
 

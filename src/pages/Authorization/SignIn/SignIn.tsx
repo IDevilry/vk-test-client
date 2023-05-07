@@ -29,6 +29,7 @@ const SignIn: React.FC = () => {
       if (res.status === 200) {
         localStorage.setItem("token", res.data.jwt);
         navigate("/");
+        window.location.reload();
       }
     } catch (error: Error | any) {
       console.log(error);

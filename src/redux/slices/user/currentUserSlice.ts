@@ -1,7 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { type IUser } from "../../types";
-import { fetchCurrentUser } from "../asyncThunks/user/fetchCurrentUser";
-import { fetchUpdateUser } from "../asyncThunks";
+import { fetchCurrentUser } from "../../asyncThunks/user/fetchCurrentUser";
+import { fetchUpdateUser } from "../../asyncThunks";
+
+import { type IUser } from "../../../types";
 
 interface UserState {
   user: IUser;
@@ -15,7 +16,7 @@ const userSlice = createSlice({
   name: "currentUser",
   initialState,
   reducers: {
-    update(state, action: PayloadAction<IUser>) {
+    updateUser(state, action: PayloadAction<IUser>) {
       state.user = action.payload;
     },
   },
@@ -29,5 +30,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { update } = userSlice.actions;
+export const { updateUser } = userSlice.actions;
 export default userSlice.reducer;

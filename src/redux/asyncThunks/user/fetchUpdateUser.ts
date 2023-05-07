@@ -7,8 +7,14 @@ export const fetchUpdateUser = createAsyncThunk<IUser, IUserToUpdate>(
   async (userToUpdate) => {
     const res = await axiosInstance.patch<IUser>(
       `/users/update/${userToUpdate._id}`,
-      userToUpdate
+      userToUpdate,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      }
     );
+    console.log(res.data)
     return res.data;
   }
 );

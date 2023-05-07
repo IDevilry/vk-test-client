@@ -1,14 +1,45 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, type FC } from "react";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Feed, Friends, Profile, SignIn, SignUp } from "../pages";
+import {
+  Feed,
+  Friends,
+  Profile,
+  SignIn,
+  SignUp,
+  Chat,
+  UserProfile,
+  UsersList,
+} from "../pages";
 
-import Layout from "../components/Layout/Layout";
-import PrivateWrapper from "../components/PrivateWrapper/PrivateWrapper";
-import Users from "../pages/Users/Users";
-import UserProfile from "../pages/UserProfile/UserProfile";
+import { PrivateWrapper, Layout } from "../components";
 
-const App: React.FC = () => {
+import { useAppDispatch, useAppSelector } from "../hooks/typedRedux";
+import { fetchCurrentUser } from "../redux/asyncThunks";
+import { fetchFriends } from "../redux/asyncThunks/user/fetchFriends";
+import { fetchChats } from "../redux/asyncThunks/chat/fetchChats";
+import { socket } from "../socket";
+
+const App: FC = () => {
+  const dispatch = useAppDispatch();
+
+  const user = useAppSelector((state) => state.currentUser.user);
+
+  useEffect(() => {
+    socket.emit("addNewUser", user);
+
+    return () => {
+      socket.emit("userDisconnected", user);
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+    dispatch(fetchFriends());
+    dispatch(fetchChats({ userId: user?._id }));
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -48,6 +79,14 @@ const App: React.FC = () => {
               </PrivateWrapper>
             }
           />
+          <Route
+            path="chat"
+            element={
+              <PrivateWrapper>
+                <Chat />
+              </PrivateWrapper>
+            }
+          />
           <Route path="friends/">
             <Route
               path="my"
@@ -61,10 +100,11 @@ const App: React.FC = () => {
               path="search"
               element={
                 <PrivateWrapper>
-                  <Users />
+                  <UsersList />
                 </PrivateWrapper>
               }
             />
+
             <Route />
           </Route>
         </Route>

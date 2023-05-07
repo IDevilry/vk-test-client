@@ -1,0 +1,107 @@
+.chatContainer {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 1rem;
+  margin: 1rem;
+  height: auto;
+  min-height: 80vh;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.chatList {
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+  overflow-y: scroll;
+}
+
+.chatHeader {
+  background-color: rgb(249, 248, 248);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-radius: 10px;
+  height: 5rem;
+  margin: 3rem 30px;
+}
+
+.userBlock {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.chatWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  font-size: 18px;
+  margin: 0 25px;
+  padding: 25px;
+  align-self: flex-start;
+  background-color: rgb(214, 214, 214);
+  color: black;
+  border-radius: 20px;
+}
+
+.messageOwn {
+  font-size: 18px;
+  margin: 0 25px;
+  padding: 25px;
+  align-self: flex-end;
+  background-color: #1976d2;
+  color: white;
+  border-radius: 20px;
+}
+
+.inputWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputWrapper input {
+  color: black;
+  width: 100%;
+}
+
+.inputWrapper input::placeholder {
+  color: rgb(163, 163, 163);
+}
+
+.inputWrapper button {
+  font-size: 16px;
+  color: white;
+  background-color: #1976d2;
+  transition: all 200ms ease;
+}
+
+.inputWrapper button:hover {
+  background-color: #1976d2ed;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.flex {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.online {
+  color: gray;
+}
+
+.hr {
+  height: 1px;
+  border: 1px solid #ececec;
+}

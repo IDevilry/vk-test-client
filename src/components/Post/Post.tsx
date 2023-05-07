@@ -1,14 +1,19 @@
 import { type FC } from "react";
-import { type IPost } from "../../types";
+import { type IUser } from "../../types";
+import { type PostProps } from "./post.props";
 
 import cn from "./post.module.css";
 
-interface PostProps {
-  post: IPost;
-}
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Post: FC<PostProps> = ({ post }) => {
-  const { content, user, image, likes, title } = post;
+  const {
+    user = {} as IUser,
+    content = "",
+    image = "",
+    likes = "",
+    title = "",
+  } = post;
 
   return (
     <div className={cn.container}>
@@ -26,7 +31,7 @@ const Post: FC<PostProps> = ({ post }) => {
         <div className={cn.textTop}>
           <p className={cn.textTitle}>{title}</p>
           <p className={cn.textContent}>{content}</p>
-          {image && <img src={image} alt="post" />}
+          {image && <img src={`${API_URL}/${image}`} alt="post" />}
         </div>
       </div>
       <div className={cn.bottom}>

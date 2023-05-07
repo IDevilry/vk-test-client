@@ -1,12 +1,14 @@
-import { useEffect, type FC } from "react";
+import { useEffect, type FC, ChangeEventHandler, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
 import { fetchAllUsers } from "../../redux/asyncThunks/user/fetchAllUsers";
-import { fetchFriends } from "../../redux/asyncThunks/user/fetchFriends";
-import { fetchCurrentUser } from "../../redux/asyncThunks";
 
-import User from "../../components/User/User";
+import { User } from "../../components";
 
-const Users: FC = () => {
+import cn from "./usersList.module.css";
+
+const UsersList: FC = () => {
+  const [search, setSearch] = useState("");
+
   const users = useAppSelector((state) => state.users.users);
   const currentUser = useAppSelector((state) => state.currentUser.user);
   const friends = useAppSelector((state) => state.friends.friends);
@@ -14,18 +16,27 @@ const Users: FC = () => {
 
   useEffect(() => {
     dispatch(fetchAllUsers());
-    dispatch(fetchFriends());
-    dispatch(fetchCurrentUser());
   }, [dispatch]);
 
   const usersWithoutCurrentUser = users.filter(
     (user) => user._id !== currentUser._id
   );
 
+  const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filtered = usersWithoutCurrentUser.filter(
+    (user) =>
+      user.user_first_name.toLowerCase().includes(search.toLowerCase()) ||
+      user.user_last_name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <>
-      <div>
-        {usersWithoutCurrentUser.map((user) => (
+      <div className={cn.container}>
+        <input placeholder="Поиск..." type="search" onChange={handleSearch} />
+        {filtered.map((user) => (
           <User
             key={user._id}
             currentUser={currentUser}
@@ -40,4 +51,4 @@ const Users: FC = () => {
   );
 };
 
-export default Users;
+export default UsersList;

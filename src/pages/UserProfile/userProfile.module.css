@@ -1,7 +1,6 @@
 .userBlock {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
   gap: 30px;
 }
 
@@ -9,7 +8,7 @@
   object-fit: cover;
   max-height: 280px;
   max-width: 280px;
-  /* aspect-ratio: 1/1; */
+  aspect-ratio: 1/1;
   border-radius: 100%;
 }
 
@@ -45,16 +44,6 @@ label {
   background-color: rgba(216, 216, 216, 0.87);
 }
 
-.button {
-  font-size: 16px;
-  transition: 200ms all ease;
-  margin-top: 10px;
-  background-color: inherit;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(33, 112, 202, 0.805);
-}
-
 .button:hover {
   color: white;
 }
@@ -66,4 +55,25 @@ label {
 .posts p {
   font-size: 16px;
   font-weight: 500;
+}
+
+button {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+
+  outline: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 300ms linear;
+}
+
+.secondary {
+  border: 1px solid #1976d2;
+  background-color: white;
+}
+
+.primary {
+  background-color: #1976d2;
+  color: white;
 }

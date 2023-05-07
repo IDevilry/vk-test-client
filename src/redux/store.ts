@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import postReducer from "./slices/postSlice";
-import currentUserReducer from "./slices/currentUserSlice";
-import usersReducer from "./slices/usersSlice";
-import friendsReducer from "./slices/friendsSlice";
+import postReducer from "./slices/post/postSlice";
+import currentUserReducer from "./slices/user/currentUserSlice";
+import usersReducer from "./slices/user/usersSlice";
+import friendsReducer from "./slices/user/friendsSlice";
+import chatReducer from "./slices/chat/chatSlice";
+import messagesReducer from "./slices/chat/messagesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ export const store = configureStore({
     users: usersReducer,
     currentUser: currentUserReducer,
     friends: friendsReducer,
+    chats: chatReducer,
+    messages: messagesReducer,
   },
 });
 

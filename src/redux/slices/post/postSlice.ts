@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { type IPostList } from "../../types";
-import { fetchMyPosts, fetchPosts } from "../asyncThunks/post/fetchPosts";
-import { fetchNewPost } from "../asyncThunks/post/fetchNewPost";
+import { fetchMyPosts, fetchPosts } from "../../asyncThunks/post/fetchPosts";
+import { fetchNewPost } from "../../asyncThunks/post/fetchNewPost";
+
+import { type IPostList } from "../../../types";
 
 interface PostState {
   posts: IPostList;

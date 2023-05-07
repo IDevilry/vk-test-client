@@ -32,6 +32,7 @@ const SignUp: FC = () => {
       if (res.status === 201) {
         localStorage.setItem("token", res.data.jwt);
         navigate("/");
+        window.location.reload();
       }
     } catch (error: Error | any) {
       setError(error?.response?.data);

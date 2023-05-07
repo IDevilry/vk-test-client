@@ -13,6 +13,7 @@ export interface IFriendList {
 }
 
 export interface IUserById {
+  isFriend?: boolean;
   totalCount: number;
   user: IUser;
 }
@@ -44,7 +45,6 @@ export interface INewPost {
   user?: string;
   title?: string;
   content?: string;
-  image?: string;
 }
 
 export interface IUserToUpdate {
@@ -54,5 +54,26 @@ export interface IUserToUpdate {
   city?: string;
   institution?: string;
   description?: string;
-  profile_photo?: string;
+  profile_photo?: File | string;
+}
+
+export interface IChat {
+  _id: string;
+  createdAt: Date;
+  members: IUser[];
+}
+
+export interface IMessage {
+  _id?: string;
+  chatId: string;
+  senderId: string;
+  text: string;
+  createdAt: string;
+  companion?: IUser;
+}
+
+export interface INewMessage {
+  chatId: string;
+  senderId: string;
+  text: string;
 }

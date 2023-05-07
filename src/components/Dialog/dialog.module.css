@@ -1,0 +1,65 @@
+.hr {
+  margin-top: 1rem;
+  height: 1px;
+  border: 1px solid #ececec;
+}
+
+.conversation:hover {
+  background: #80808038;
+  cursor: pointer;
+}
+
+.conversation {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 10px;
+  transition: all 200ms ease;
+}
+
+.conversation > div {
+  position: relative;
+}
+
+.onlineDot {
+  background-color: greenyellow;
+  border-radius: 50%;
+  position: absolute;
+  top: 0.3rem;
+  left: 3.5rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.userBlock {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.flex {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.online {
+  color: gray;
+}
+
+img {
+  width: 75px;
+  height: 75px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .chat {
+    grid-template-columns: 16% auto;
+  }
+}

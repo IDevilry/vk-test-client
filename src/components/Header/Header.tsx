@@ -1,24 +1,21 @@
-import { FC, useEffect } from "react";
+import { type FC } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
-import { fetchCurrentUser } from "../../redux/asyncThunks/user/fetchCurrentUser";
+import { useAppSelector } from "../../hooks/typedRedux";
 
 import cn from "./header.module.css";
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Header: FC = () => {
   const user = useAppSelector((state) => state.currentUser.user);
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, [dispatch]);
-
   const navigate = useNavigate();
+
   const logOut = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/auth/login");
+    window.location.reload();
   };
   return (
     <div className={cn.container}>
@@ -50,7 +47,7 @@ const Header: FC = () => {
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? cn.active : "")}
-            to="/messages"
+            to="/chat"
           >
             Сообщения
           </NavLink>
@@ -60,7 +57,7 @@ const Header: FC = () => {
             {user?.profile_photo && (
               <NavLink to="/profile">
                 <img
-                  src={user?.profile_photo}
+                  src={`${API_URL}/${user.profile_photo}`}
                   alt="User Avatar"
                   className={cn.userAvatar}
                 />

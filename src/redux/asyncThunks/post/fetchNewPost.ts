@@ -1,14 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { INewPost, IPost, IUser } from "../../../types";
+import { type IPost, type IUser } from "../../../types";
 import { axiosInstance } from "../../../api";
 
 export const fetchNewPost = createAsyncThunk<
   { post: IPost; user: IUser },
-  INewPost
+  FormData
 >("posts/fetchNewPost", async (newPost) => {
+  console.log(newPost);
   const res = await axiosInstance.post<{ post: IPost; user: IUser }>(
     "/posts/new",
-    newPost
+    newPost,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
   );
+  console.log(res.data);
   return res.data;
 });
