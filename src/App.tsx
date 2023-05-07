@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, type FC } from "react";
 
-import {  Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import {
   Feed,
   Friends,
@@ -11,15 +11,15 @@ import {
   Chat,
   UserProfile,
   UsersList,
-} from "../pages";
+} from "./pages";
 
-import { PrivateWrapper, Layout } from "../components";
+import { PrivateWrapper, Layout } from "./components";
 
-import { useAppDispatch, useAppSelector } from "../hooks/typedRedux";
-import { fetchCurrentUser } from "../redux/asyncThunks";
-import { fetchFriends } from "../redux/asyncThunks/user/fetchFriends";
-import { fetchChats } from "../redux/asyncThunks/chat/fetchChats";
-import { socket } from "../socket";
+import { useAppDispatch, useAppSelector } from "./hooks/typedRedux";
+import { fetchCurrentUser } from "./redux/asyncThunks";
+import { fetchFriends } from "./redux/asyncThunks/user/fetchFriends";
+import { fetchChats } from "./redux/asyncThunks/chat/fetchChats";
+import { socket } from "./socket";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
