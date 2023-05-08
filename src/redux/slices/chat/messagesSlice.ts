@@ -1,6 +1,5 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { fetchMessages } from "../../asyncThunks/chat/fetchMessages";
-import { fetchNewMessage } from "../../asyncThunks/chat/fetchNewMessage";
 
 import { type IMessage } from "../../../types";
 
@@ -25,9 +24,6 @@ const messagesSlice = createSlice({
       if (action.payload) {
         state.messages = action.payload;
       }
-    });
-    builder.addCase(fetchNewMessage.fulfilled, (state, action) => {
-      state.messages.push(action.payload);
     });
   },
 });

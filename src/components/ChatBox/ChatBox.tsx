@@ -56,10 +56,12 @@ const ChatBox: FC<ChatBoxProps> = ({
         chatId: chat?._id,
         senderId: currentUser._id,
         text: newMessage,
+        createdAt: new Date().toString(),
       };
 
       dispatch(fetchNewMessage(message));
-
+      dispatch(addMessage(message))
+      
       setSendMessage({
         ...message,
         companion: companion,
