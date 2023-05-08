@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, type FC } from "react";
 
 import { Routes, Route, BrowserRouter } from "react-router-dom";
@@ -20,27 +19,31 @@ import { fetchCurrentUser } from "./redux/asyncThunks";
 import { fetchFriends } from "./redux/asyncThunks/user/fetchFriends";
 import { fetchChats } from "./redux/asyncThunks/chat/fetchChats";
 import { socket } from "./socket";
+import { useAuth } from "./hooks/useAuth";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
 
   const user = useAppSelector((state) => state.currentUser.user);
-
+  const isAuth = useAuth();
   useEffect(() => {
     socket.emit("addNewUser", user);
 
     return () => {
       socket.emit("userDisconnected", user);
     };
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    if (user._id) {
+    if (isAuth) {
       dispatch(fetchCurrentUser());
+    }
+
+    if (user._id) {
       dispatch(fetchFriends());
       dispatch(fetchChats({ userId: user?._id }));
     }
-  }, []);
+  }, [dispatch, isAuth, user._id]);
 
   return (
     <BrowserRouter>

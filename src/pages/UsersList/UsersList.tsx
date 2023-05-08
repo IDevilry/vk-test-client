@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, type FC, ChangeEventHandler, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
 import { fetchAllUsers } from "../../redux/asyncThunks/user/fetchAllUsers";
@@ -32,8 +33,7 @@ const UsersList: FC = () => {
     );
 
     setFilteredUsers(filtered);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, search]);
+  }, [currentUser]);
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearch(e.target.value);
