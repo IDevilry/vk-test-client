@@ -8,7 +8,7 @@ export const axiosInstance = axios.create({
   baseURL: API_URL,
 
   headers: {
-    "Access-Control-Allow-Origin": API_URL,
+    "Access-Control-Allow-Origin": "*:*",
     Authorization: `Bearer ${JWT_TOKEN}`,
   },
 });
