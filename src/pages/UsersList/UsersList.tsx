@@ -49,7 +49,7 @@ const UsersList: FC = () => {
             currentUser={currentUser}
             user={user}
             isFriend={
-              friends.find((friend) => friend._id === user._id) ? true : false
+              friends?.find((friend) => friend._id === user._id) ? true : false
             }
           />
         ))}

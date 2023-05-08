@@ -2,9 +2,10 @@ import { useState, type FC, type ChangeEventHandler, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
 
 import { User } from "../../components";
-
-import cn from "./friends.module.css";
 import { fetchFriends } from "../../redux/asyncThunks";
+
+import { type IUser } from "../../types";
+import cn from "./friends.module.css";
 
 const Friends: FC = () => {
   const [search, setSearch] = useState("");
@@ -13,7 +14,7 @@ const Friends: FC = () => {
   const currentUser = useAppSelector((state) => state.currentUser.user);
   const dispatch = useAppDispatch();
 
-  const filtered = friends.filter(
+  const filtered: IUser[] | undefined = friends?.filter(
     (user) =>
       user.user_first_name.toLowerCase().includes(search.toLowerCase()) ||
       user.user_last_name.toLowerCase().includes(search.toLowerCase())
@@ -34,7 +35,7 @@ const Friends: FC = () => {
       </div>
       <input type="search" onChange={handleSearch} />
       <div>
-        {filtered.map((friend) => (
+        {filtered?.map((friend) => (
           <User
             key={friend._id}
             user={friend}
