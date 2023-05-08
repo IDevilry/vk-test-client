@@ -55,7 +55,7 @@ const User: FC<UserProps> = ({ user, isFriend, currentUser }) => {
       socket.off("getUsers");
     };
   }, [dispatch]);
-
+  console.log(user.profile_photo);
   return (
     <div className={cn.container}>
       <div className={cn.left}>

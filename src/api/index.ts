@@ -8,6 +8,7 @@ export const axiosInstance = axios.create({
   baseURL: API_URL,
 
   headers: {
+    "Access-Control-Allow-Origin": "*",
     "Cross-Origin-Resource-Policy": "same-origin",
     Authorization: `Bearer ${JWT_TOKEN}`,
   },
