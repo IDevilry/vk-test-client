@@ -7,48 +7,50 @@ import { User } from "../../components";
 import cn from "./usersList.module.css";
 
 const UsersList: FC = () => {
-  const [search, setSearch] = useState("");
+	const [search, setSearch] = useState("");
+	const [] = useState();
 
-  const users = useAppSelector((state) => state.users.users);
-  const currentUser = useAppSelector((state) => state.currentUser.user);
-  const friends = useAppSelector((state) => state.friends.friends);
-  const dispatch = useAppDispatch();
+	const users = useAppSelector((state) => state.users.users);
+	const currentUser = useAppSelector((state) => state.currentUser.user);
+	const friends = useAppSelector((state) => state.friends.friends);
 
-  useEffect(() => {
-    dispatch(fetchAllUsers());
-  }, [dispatch]);
+	const dispatch = useAppDispatch();
 
-  const usersWithoutCurrentUser = users.filter(
-    (user) => user._id !== currentUser._id
-  );
+	useEffect(() => {
+		dispatch(fetchAllUsers());
+	}, [dispatch]);
 
-  const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setSearch(e.target.value);
-  };
+	const usersWithoutCurrentUser = users?.filter(
+		(user) => user?._id !== currentUser?._id
+	);
 
-  const filtered = usersWithoutCurrentUser.filter(
-    (user) =>
-      user.user_first_name.toLowerCase().includes(search.toLowerCase()) ||
-      user.user_last_name.toLowerCase().includes(search.toLowerCase())
-  );
+	const filtered = usersWithoutCurrentUser?.filter(
+		(user) =>
+			user?.user_first_name.toLowerCase().includes(search.toLowerCase()) ||
+			user?.user_last_name.toLowerCase().includes(search.toLowerCase())
+	);
 
-  return (
-    <>
-      <div className={cn.container}>
-        <input placeholder="Поиск..." type="search" onChange={handleSearch} />
-        {filtered.map((user) => (
-          <User
-            key={user._id}
-            currentUser={currentUser}
-            user={user}
-            isFriend={
-              friends.find((friend) => friend._id === user._id) ? true : false
-            }
-          />
-        ))}
-      </div>
-    </>
-  );
+	const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
+		setSearch(e.target.value);
+	};
+
+	return (
+		<>
+			<div className={cn.container}>
+				<input placeholder="Поиск..." type="search" onChange={handleSearch} />
+				{filtered?.map((user) => (
+					<User
+						key={user._id}
+						currentUser={currentUser}
+						user={user}
+						isFriend={
+							friends.find((friend) => friend._id === user._id) ? true : false
+						}
+					/>
+				))}
+			</div>
+		</>
+	);
 };
 
 export default UsersList;
