@@ -1,7 +1,7 @@
 .hr {
   margin-top: 1rem;
   height: 1px;
-  border: 1px solid #ececec;
+  border: 1px solid #2e2e2e;
 }
 
 .conversation:hover {
@@ -10,7 +10,6 @@
 }
 
 .conversation {
-  background-color: white;
   border-radius: 0.5rem;
   padding: 10px;
   transition: all 200ms ease;
@@ -31,6 +30,7 @@
 }
 
 .userBlock {
+  color: white;
   display: flex;
   align-items: center;
   gap: 15px;
@@ -51,12 +51,6 @@
   color: gray;
 }
 
-img {
-  width: 75px;
-  height: 75px;
-  aspect-ratio: 1/1;
-  border-radius: 100%;
-}
 
 @media screen and (max-width: 768px) {
   .chat {

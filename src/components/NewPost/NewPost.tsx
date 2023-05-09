@@ -1,9 +1,4 @@
-import {
-  type FormEventHandler,
-  type FC,
-  type ChangeEventHandler,
-  useState,
-} from "react";
+import { type FC, type ChangeEventHandler, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
 import { fetchNewPost } from "../../redux/asyncThunks/post/fetchNewPost";
 
@@ -18,11 +13,9 @@ const NewPost: FC = () => {
   const [newPost, setNewPost] = useState<INewPost>();
   const [image, setNewImage] = useState<File | null>();
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     const formData = new FormData();
-
+    console.log("submit")
     formData.append("image", image || "");
     formData.append("content", newPost?.content || "");
     formData.append("title", newPost?.title || "");
@@ -43,35 +36,29 @@ const NewPost: FC = () => {
   };
 
   return (
-    <div className={cn.container}>
+    <div className={cn.newPost}>
       <div className={cn.top}>
-        <h2 className={cn.topText}>Новый пост</h2>
+        <input
+          className={`${cn.postInput} input`}
+          placeholder="Что нового?"
+          type="text"
+          name="content"
+          required
+          onChange={handleChange}
+        />
       </div>
       <div className={cn.bottom}>
-        <form onSubmit={handleSubmit} className={cn.form}>
-          <input
-            name="title"
-            onChange={handleChange}
-            type="text"
-            placeholder="Заголовок (необязательно)"
-          />
-          <input
-            name="content"
-            onChange={handleChange}
-            type="text"
-            required
-            placeholder="Что нового?"
-          />
-          <input
-            name="image"
-            onChange={handleFile}
-            accept="image/*"
-            type="file"
-            placeholder="Ссылка на изображение (необязательно)"
-          />
-
-          <button type="submit">Создать</button>
-        </form>
+        <div className={cn.left}>
+          <label htmlFor="files" className="button">
+            Выберите изображение
+          </label>
+          <input id="files" style={{ visibility: "hidden" }} type="file" onChange={handleFile} />
+        </div>
+        <div className={cn.right}>
+          <button onClick={handleSubmit} type="button" className="button">
+            Отправить
+          </button>
+        </div>
       </div>
     </div>
   );

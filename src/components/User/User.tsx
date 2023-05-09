@@ -58,40 +58,42 @@ const User: FC<UserProps> = ({ user, isFriend, currentUser }) => {
 
   return (
     <div className={cn.container}>
-      <div className={cn.left}>
-        <div className={cn.img}>
-          <NavLink to={`/profile/${user._id}`}>
-            {
-              <img
-                src={
-                  user.profile_photo
-                    ? `${API_URL}/${user.profile_photo}`
-                    : defaultPhoto
-                }
-                alt="user avatar"
-              />
-            }
-          </NavLink>
+      <div className="widgetContainer">
+        <div className={cn.left}>
+          <div className={cn.img}>
+            <NavLink to={`/profile/${user._id}`}>
+              {
+                <img
+                  src={
+                    user.profile_photo
+                      ? `${API_URL}/${user.profile_photo}`
+                      : defaultPhoto
+                  }
+                  alt="user avatar"
+                />
+              }
+            </NavLink>
+          </div>
+          <div className={cn.text}>
+            <NavLink to={`/profile/${user._id}`}>
+              <p className={cn.userName}>
+                {user.user_first_name} {user.user_last_name}
+              </p>
+            </NavLink>
+            <p>{user.description}</p>
+          </div>
         </div>
-        <div className={cn.text}>
-          <NavLink to={`/profile/${user._id}`}>
-            <p className={cn.userName}>
-              {user.user_first_name} {user.user_last_name}
-            </p>
-          </NavLink>
-          <p>{user.description}</p>
+        <div className={cn.button}>
+          <button
+            className={isFriend ? cn.secondary : cn.primary}
+            onClick={handleDelete}
+          >
+            {isFriend ? "Удалить из друзей" : "Добавить в друзья"}
+          </button>
+          <button onClick={findChatWithUser} className={cn.primary}>
+            Написать сообщение
+          </button>
         </div>
-      </div>
-      <div className={cn.button}>
-        <button
-          className={isFriend ? cn.secondary : cn.primary}
-          onClick={handleDelete}
-        >
-          {isFriend ? "Удалить из друзей" : "Добавить в друзья"}
-        </button>
-        <button onClick={findChatWithUser} className={cn.primary}>
-          Написать сообщение
-        </button>
       </div>
     </div>
   );

@@ -5,7 +5,6 @@ import Layout from "./Layout/Layout";
 import Message from "./Message/Message";
 import NewPost from "./NewPost/NewPost";
 import Post from "./Post/Post";
-import PostList from "./PostList/PostList";
 import PrivateWrapper from "./PrivateWrapper/PrivateWrapper";
 import User from "./User/User";
 
@@ -17,7 +16,6 @@ export {
   Message,
   NewPost,
   Post,
-  PostList,
   PrivateWrapper,
   User,
 };

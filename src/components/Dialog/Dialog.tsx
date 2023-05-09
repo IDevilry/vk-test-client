@@ -18,6 +18,7 @@ const Dialog: FC<DialogProps> = ({ chat, currentUser, isOnline }) => {
         <div className={cn.userBlock}>
           <div className={isOnline ? cn.onlineDot : ""}></div>
           <img
+          className="img"
             src={
               companion?.profile_photo
                 ? `${API_URL}/${companion.profile_photo}`

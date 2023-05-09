@@ -43,18 +43,20 @@ const SignIn: React.FC = () => {
       {error && <p>{error}</p>}
       <form className={cn.form} onSubmit={handleSubmit}>
         <input
+        className="input"
           onChange={handleChange}
           name="user_email"
           type="email"
           placeholder="Электронная почта"
         />
         <input
+        className="input"
           onChange={handleChange}
           name="password"
           type="password"
           placeholder="Пароль"
         />
-        <button className={cn.button} type="submit">
+        <button className="button" type="submit">
           Войти
         </button>
         <NavLink className={cn.link} to="/auth/register">

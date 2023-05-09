@@ -9,7 +9,7 @@ type PrivateProps = {
 const PrivateWrapper: FC<PrivateProps> = ({ children }) => {
   const auth = useAuth();
 
-  return auth ? children : <Navigate to="auth/login" replace />;
+  return auth ? children : <Navigate to="/auth/login" replace />;
 };
 
 export default PrivateWrapper;

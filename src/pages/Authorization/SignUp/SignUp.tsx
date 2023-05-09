@@ -12,6 +12,7 @@ const SignUp: FC = () => {
     user_email: "",
     user_first_name: "",
     user_last_name: "",
+    image: "",
   });
 
   const [chekPass, setCheckPass] = useState("");
@@ -19,16 +20,32 @@ const SignUp: FC = () => {
 
   const navigate = useNavigate();
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (e.target.files?.length) {
+      setUser({
+        ...user,
+        image: e.target.files[0],
+      });
+    }
     setUser({
       ...user,
       [e.target.name]: e.target.value,
     });
-    setError("")
+    setError("");
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await axiosInstance.post("/auth/register", user);
+      const formData = new FormData();
+      formData.append("password", user.password);
+      formData.append("user_email", user.user_email);
+      formData.append("user_first_name", user.user_first_name);
+      formData.append("user_last_name", user.user_last_name);
+      formData.append("image", user.image);
+      const res = await axiosInstance.post("/auth/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (res.status === 201) {
         localStorage.setItem("token", res.data.jwt);
         navigate("/");
@@ -53,6 +70,7 @@ const SignUp: FC = () => {
       {error && <p>{error}</p>}
       <form className={cn.form} onSubmit={handleSubmit}>
         <input
+          className="input"
           onChange={handleChange}
           name="user_first_name"
           type="text"
@@ -60,6 +78,7 @@ const SignUp: FC = () => {
           required
         />
         <input
+          className="input"
           onChange={handleChange}
           name="user_last_name"
           type="text"
@@ -67,30 +86,40 @@ const SignUp: FC = () => {
           required
         />
         <input
+          className="input"
           onChange={handleChange}
           name="user_email"
           type="email"
           placeholder="Электронная почта"
           required
         />
+        <label htmlFor="files" className={cn.inputLabel}>
+          Выберите изображение
+        </label>
         <input
+          id="files"
+          style={{ visibility: "hidden", position: "absolute", bottom: "0" }}
+          type="file"
+          onChange={handleChange}
+        />
+        <input
+          className="input"
           onChange={handleChange}
           name="password"
           type="password"
           placeholder="Пароль"
           required
-          className={chekPass ? cn.red : cn.white}
         />
         <input
+          className="input"
           onChange={checkPasswords}
           name="secondPassword"
           type="password"
           placeholder="Повторите пароль"
           required
-          className={chekPass ? cn.red : cn.white}
         />
         {chekPass && <p>{chekPass}</p>}
-        <button className={cn.button} type="submit">
+        <button className="button" type="submit">
           Зарегистрироваться
         </button>
         <NavLink className={cn.link} to="/auth/login">

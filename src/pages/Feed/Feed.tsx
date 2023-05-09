@@ -1,28 +1,28 @@
-/* eslint-disable array-callback-return */
-import { PostList } from "../../components";
-
-import { useAppSelector } from "../../hooks/typedRedux";
+import { NewPost, Post } from "../../components";
 
 import { type FC } from "react";
-import { type IPost } from "../../types";
 
+import { FeedProps } from "./feed.props";
 
-const Feed: FC = () => {
-  const friends = useAppSelector((state) => state.friends.friends);
-
-  const collectFriendsPosts = () => {
-    const friendsPosts: IPost[] = [];
-    friends.map((friend) => {
-      friend.posts?.map((post) => {
-        friendsPosts.push(post);
-      });
-    });
-    return friendsPosts;
-  };
-  const friendsPosts = collectFriendsPosts();
+const Feed: FC<FeedProps> = ({ posts, isCurrentUser }) => {
   return (
-    <div>
-      <PostList totalCount={friendsPosts.length} posts={friendsPosts} />
+    <div style={{ width: "100%" }}>
+      <div className="widgetContainer">
+        {isCurrentUser ? <NewPost /> : null}
+      </div>
+      <hr />
+      <div className="widgetContainer">
+        {posts?.length ? (
+          posts?.map((post) => (
+            <div key={post._id}>
+              <Post post={post} />
+              <hr />
+            </div>
+          ))
+        ) : (
+          <p>Не найдено ни одного поста :\</p>
+        )}
+      </div>
     </div>
   );
 };

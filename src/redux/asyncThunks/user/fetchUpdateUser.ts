@@ -14,7 +14,6 @@ export const fetchUpdateUser = createAsyncThunk<IUser, IUserToUpdate>(
         }
       }
     );
-    console.log(res.data)
     return res.data;
   }
 );

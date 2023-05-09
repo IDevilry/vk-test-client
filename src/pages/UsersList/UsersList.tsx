@@ -1,13 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, type FC, ChangeEventHandler, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
-import { fetchAllUsers } from "../../redux/asyncThunks/user/fetchAllUsers";
+import { useAppSelector } from "../../hooks/typedRedux";
 
 import { User } from "../../components";
 
 import { type IUser } from "../../types";
-
-import cn from "./usersList.module.css";
 
 const UsersList: FC = () => {
   const [search, setSearch] = useState("");
@@ -17,32 +14,35 @@ const UsersList: FC = () => {
   const currentUser = useAppSelector((state) => state.currentUser.user);
   const friends = useAppSelector((state) => state.friends.friends);
 
-  const dispatch = useAppDispatch();
+  const usersWithoutCurrent = users.filter(
+    (user) => user._id !== currentUser._id
+  );
 
   useEffect(() => {
-    dispatch(fetchAllUsers());
-
-    const usersWithoutCurrentUser = users?.filter(
-      (user) => user?._id !== currentUser?._id
-    );
-
-    const filtered = usersWithoutCurrentUser?.filter(
-      (user) =>
-        user?.user_first_name.toLowerCase().includes(search.toLowerCase()) ||
-        user?.user_last_name.toLowerCase().includes(search.toLowerCase())
-    );
-
-    setFilteredUsers(filtered);
-  }, [currentUser]);
+    setFilteredUsers(usersWithoutCurrent);
+  }, []);
 
   const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearch(e.target.value);
+
+    setFilteredUsers(
+      usersWithoutCurrent.filter(
+        (user) =>
+          user.user_first_name.includes(search) ||
+          user.user_last_name.includes(search)
+      )
+    );
   };
 
   return (
     <>
-      <div className={cn.container}>
-        <input placeholder="Поиск..." type="search" onChange={handleSearch} />
+      <div className="container">
+        <input
+          className="input"
+          placeholder="Поиск..."
+          type="search"
+          onChange={handleSearch}
+        />
         {filteredUsers?.map((user) => (
           <User
             key={user._id}

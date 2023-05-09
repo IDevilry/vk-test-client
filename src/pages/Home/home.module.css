@@ -1,0 +1,25 @@
+.container {
+  max-width: 1400px;
+  padding: 0 50px;
+  margin: 50px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+.leftSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .container {
+    flex-wrap: wrap;
+  }
+
+  .leftSide {
+    width: 100%;
+  }
+}

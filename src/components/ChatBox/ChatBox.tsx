@@ -38,7 +38,7 @@ const ChatBox: FC<ChatBoxProps> = ({
     return () => {
       setNewMessage("");
     };
-  }, [chat, dispatch]);
+  }, [chat]);
 
   useEffect(() => {
     if (receiveMessage && receiveMessage.chatId === chat?._id) {
@@ -59,9 +59,13 @@ const ChatBox: FC<ChatBoxProps> = ({
         createdAt: new Date().toString(),
       };
 
+      if (!message.text.length) {
+        return;
+      }
+
       dispatch(fetchNewMessage(message));
-      dispatch(addMessage(message))
-      
+      dispatch(addMessage(message));
+
       setSendMessage({
         ...message,
         companion: companion,
@@ -71,35 +75,35 @@ const ChatBox: FC<ChatBoxProps> = ({
       setNewMessage("");
     }
   };
-
   return (
     <div className={cn.chatWrapper}>
       <div className={cn.chatContainer}>
-        <div className={cn.chatHeader}>
-          {companion && (
-            <img
-              src={
-                companion?.profile_photo
-                  ? `${API_URL}/${companion.profile_photo}`
-                  : defaultPhoto
-              }
-              alt="user avatar"
-            />
-          )}
-          <div className={cn.flex}>
-            {companion && (
-              <>
-                <span className={cn.name}>
-                  {companion?.user_first_name} {companion?.user_last_name}
-                </span>
-                <span className={cn.online}>Не в сети</span>
-              </>
-            )}
+        {chat ? (
+          <div className={cn.conversationWrapper}>
+            <div className={cn.conversation}>
+              <div className={cn.userBlock}>
+                <img
+                  className="img"
+                  src={
+                    companion?.profile_photo
+                      ? `${API_URL}/${companion.profile_photo}`
+                      : defaultPhoto
+                  }
+                  alt="user avatar"
+                />
+                <div className={cn.flex}>
+                  <span className={cn.name}>
+                    {companion?.user_first_name} {companion?.user_last_name}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <hr className={cn.hr} />
           </div>
-        </div>
-        <hr className={cn.hr} />
+        ) : null}
+
         <div className={cn.chatList}>
-          {messages?.map((message) => (
+          {chat && messages?.map((message) => (
             <div
               key={message.createdAt}
               className={
@@ -114,19 +118,22 @@ const ChatBox: FC<ChatBoxProps> = ({
           ))}
         </div>
       </div>
-      <div className={cn.inputWrapper}>
-        <input
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          name="message"
-          type="text"
-          required
-          placeholder="Введите сообщение..."
-        />
-        <button onClick={handleSend} type="button">
-          Отправить
-        </button>
-      </div>
+      {chat ? (
+        <div className={cn.inputWrapper}>
+          <input
+            className="input"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            name="message"
+            type="text"
+            required
+            placeholder="Введите сообщение..."
+          />
+          <button className="button" onClick={handleSend} type="button">
+            Отправить
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -1,49 +1,67 @@
-import { useState, type FC, type ChangeEventHandler, useEffect } from "react";
+import { type FC, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
+import default_user_photo from "../../assets/default_user_photo.jpg";
 
-import { User } from "../../components";
 import { fetchFriends } from "../../redux/asyncThunks";
 
-import { type IUser } from "../../types";
 import cn from "./friends.module.css";
+import { checkOnlineStatus } from "../../utils";
+import { NavLink } from "react-router-dom";
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Friends: FC = () => {
-  const [search, setSearch] = useState("");
-
   const friends = useAppSelector((state) => state.friends.friends);
-  const currentUser = useAppSelector((state) => state.currentUser.user);
+  const onlineUsers = useAppSelector((state) => state.users.onlineUsers);
   const dispatch = useAppDispatch();
-
-  const filtered: IUser[] | undefined = friends?.filter(
-    (user) =>
-      user.user_first_name.toLowerCase().includes(search.toLowerCase()) ||
-      user.user_last_name.toLowerCase().includes(search.toLowerCase())
-  );
-
   useEffect(() => {
     dispatch(fetchFriends());
   }, [dispatch]);
 
-  const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setSearch(e.target.value);
-  };
-
   return (
-    <div className={cn.container}>
-      <div className={cn.text}>
-        <p>Мои друзья</p>
-      </div>
-      <input type="search" onChange={handleSearch} />
-      <div>
-        {filtered?.map((friend) => (
-          <User
-            key={friend._id}
-            user={friend}
-            isFriend
-            currentUser={currentUser}
-          />
-        ))}
-      </div>
+    <div className="widgetContainer">
+      <h2>Список друзей</h2>
+      {friends.length ? (
+        <>
+          {friends.map((friend) => (
+            <div key={friend._id}>
+              <NavLink to={`profile/${friend._id}`}>
+                <div className={cn.avatarLeftSide}>
+                  <div
+                    className={
+                      checkOnlineStatus(onlineUsers, friend) ? cn.onlineDot : ""
+                    }
+                  ></div>
+                  <img
+                    src={
+                      friend.profile_photo
+                        ? `${API_URL}/${friend.profile_photo}`
+                        : default_user_photo
+                    }
+                    alt="User Avatar"
+                    className={cn.userAvatar}
+                  />
+                  <div className={cn.name}>
+                    <span className={cn.userName}>
+                      {friend.user_first_name} {friend.user_last_name}
+                    </span>
+
+                    <span>
+                      {checkOnlineStatus(onlineUsers, friend)
+                        ? "В сети"
+                        : "Не в сети"}
+                    </span>
+                  </div>
+                </div>
+              </NavLink>
+            </div>
+          ))}
+        </>
+      ) : (
+        <>
+          <p>Вы ещё не добавили ни одного друга</p>
+        </>
+      )}
     </div>
   );
 };

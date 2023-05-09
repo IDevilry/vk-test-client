@@ -1,7 +1,9 @@
-import { type FC } from "react";
+import { socket } from "../../socket";
 import { NavLink, useNavigate } from "react-router-dom";
-
 import { useAppSelector } from "../../hooks/typedRedux";
+import { GrLogout } from "react-icons/gr";
+
+import { type FC } from "react";
 
 import cn from "./header.module.css";
 
@@ -13,6 +15,7 @@ const Header: FC = () => {
   const navigate = useNavigate();
 
   const logOut = () => {
+    socket.emit("userDisconnected", user);
     localStorage.clear();
     navigate("/auth/login");
     window.location.reload();
@@ -25,25 +28,13 @@ const Header: FC = () => {
             className={({ isActive }) => (isActive ? cn.active : "")}
             to="/"
           >
-            Лента
-          </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? cn.active : "")}
-            to="/profile"
-          >
             Моя страница
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? cn.active : "")}
-            to="/friends/search"
+            to="/users"
           >
             Люди
-          </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? cn.active : "")}
-            to="/friends/my"
-          >
-            <p>Мои друзья</p>
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? cn.active : "")}
@@ -55,7 +46,7 @@ const Header: FC = () => {
         <div className={cn.right}>
           <div className={cn.user}>
             {user?.profile_photo && (
-              <NavLink to="/profile">
+              <NavLink to="/">
                 <img
                   src={`${API_URL}/${user.profile_photo}`}
                   alt="User Avatar"
@@ -64,9 +55,13 @@ const Header: FC = () => {
               </NavLink>
             )}
 
-            <NavLink to="/profile">{user?.user_first_name}</NavLink>
+            <NavLink to="/">{user?.user_first_name}</NavLink>
           </div>
           <button className={cn.button} onClick={logOut} type="button">
+            <GrLogout
+              className="fillWhite"
+              style={{ width: "25px", height: "25px" }}
+            />
             Выйти
           </button>
         </div>
