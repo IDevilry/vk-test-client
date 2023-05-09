@@ -42,6 +42,12 @@ const Header: FC = () => {
           >
             Сообщения
           </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? cn.active : "")}
+            to="/feed"
+          >
+            Лента
+          </NavLink>
         </ul>
         <div className={cn.right}>
           <div className={cn.user}>

@@ -1,17 +1,17 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { toggleFriend } from "../../redux/asyncThunks/user/toggleFriend";
 import { useAppDispatch } from "../../hooks/typedRedux";
-import { axiosInstance } from "../../api";
 import { socket } from "../../socket";
 import { setOnlineUsers } from "../../redux/slices";
 
 import { useEffect, type FC } from "react";
 import { type UserProps } from "./user.props";
-import { type IUser, type IChat } from "../../types";
+import { type IUser } from "../../types";
 
 import defaultPhoto from "../../assets/default_user_photo.jpg";
 
 import cn from "./user.module.css";
+import { findChatWithUser } from "../../utils";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -20,31 +20,6 @@ const User: FC<UserProps> = ({ user, isFriend, currentUser }) => {
   const navigate = useNavigate();
   const handleDelete = () => {
     dispatch(toggleFriend({ currUserId: currentUser._id, targetId: user._id }));
-  };
-
-  const findChatWithUser = async (): Promise<void> => {
-    const chatWithUser = await axiosInstance.get<IChat>(
-      `/chats/find/${currentUser._id}/${user._id}`
-    );
-    if (chatWithUser.data) {
-      navigate("/chat", {
-        state: {
-          chatId: chatWithUser.data,
-        },
-      });
-    } else {
-      const chat = await axiosInstance.post<IChat>("/chats/new", {
-        senderId: currentUser._id,
-        receiverId: user._id,
-      });
-      if (chat) {
-        navigate("/chat", {
-          state: {
-            chatId: chat.data,
-          },
-        });
-      }
-    }
   };
 
   useEffect(() => {
@@ -90,7 +65,10 @@ const User: FC<UserProps> = ({ user, isFriend, currentUser }) => {
           >
             {isFriend ? "Удалить из друзей" : "Добавить в друзья"}
           </button>
-          <button onClick={findChatWithUser} className={cn.primary}>
+          <button
+            onClick={() => findChatWithUser(navigate, user, currentUser)}
+            className={cn.primary}
+          >
             Написать сообщение
           </button>
         </div>

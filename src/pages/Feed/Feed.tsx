@@ -6,14 +6,16 @@ import { useAppSelector } from "../../hooks/typedRedux";
 import { type FC } from "react";
 import { type FeedProps } from "./feed.props";
 
-const Feed: FC<FeedProps> = ({ posts, isCurrentUser }) => {
+const Feed: FC<FeedProps> = ({ posts, isCurrentUser = false }) => {
   const isLoading = useAppSelector((state) => state.posts.isLoading);
 
   return (
     <div style={{ width: "100%" }}>
-      <div className="widgetContainer">
-        {isCurrentUser ? <NewPost /> : null}
-      </div>
+      {isCurrentUser ? (
+        <div className="widgetContainer">
+          <NewPost />
+        </div>
+      ) : null}
       <hr />
       <div className="widgetContainer">
         {posts?.length ? (

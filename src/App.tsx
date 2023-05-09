@@ -2,7 +2,7 @@
 import { useEffect, type FC } from "react";
 
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { SignIn, SignUp, Chat, UserProfile, UsersList } from "./pages";
+import { SignIn, SignUp, Chat, UserProfile, UsersList, Feed } from "./pages";
 
 import { PrivateWrapper, Layout } from "./components";
 
@@ -19,11 +19,13 @@ import { useAuth } from "./hooks/useAuth";
 import Home from "./pages/Home/Home";
 import { IUser } from "./types";
 import { setOnlineUsers } from "./redux/slices";
+import OnlyPosts from "./pages/Feed/OnlyPosts";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
 
   const user = useAppSelector((state) => state.currentUser.user);
+  const allPosts = useAppSelector((state) => state.posts.posts.posts);
   const isAuth = useAuth();
 
   useEffect(() => {
@@ -77,6 +79,16 @@ const App: FC = () => {
             element={
               <PrivateWrapper>
                 <Home />
+              </PrivateWrapper>
+            }
+          />
+          <Route
+            path="feed"
+            element={
+              <PrivateWrapper>
+                <OnlyPosts>
+                  <Feed posts={allPosts} />
+                </OnlyPosts>
               </PrivateWrapper>
             }
           />
