@@ -2,17 +2,19 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { fetchMyPosts, fetchPosts } from "../../asyncThunks/post/fetchPosts";
 import { fetchNewPost } from "../../asyncThunks/post/fetchNewPost";
 
-import { type IPostList } from "../../../types";
+import { IPost, type IPostList } from "../../../types";
 import { axiosInstance } from "../../../api";
 
 interface PostState {
   posts: IPostList;
   myPosts: Omit<IPostList, "countOnPage">;
+  isLoading: boolean;
 }
 
 const initialState: PostState = {
   posts: { countOnPage: 0, totalCount: 0, posts: [] },
   myPosts: { totalCount: 0, posts: [] },
+  isLoading: false,
 };
 
 const postSlice = createSlice({
@@ -39,20 +41,49 @@ const postSlice = createSlice({
         userId: action.payload.userId,
       });
     },
+    deletePost(state, action: PayloadAction<{ postId: string }>) {
+      const postToDelete = state.myPosts.posts.find(
+        (post) => post._id === action.payload.postId
+      );
+
+      state.myPosts.posts = state.myPosts.posts.filter(
+        (post) => post._id !== action.payload.postId
+      );
+      state.posts.posts = state.posts.posts.filter(
+        (post) => post._id !== action.payload.postId
+      );
+
+      axiosInstance.delete(`/posts/delete/${postToDelete?._id}`);
+    },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchPosts.pending, (state) => {
+      state.isLoading = true;
+    });
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
+      state.isLoading = false;
       state.posts = action.payload;
     });
     builder.addCase(fetchMyPosts.fulfilled, (state, action) => {
+      state.isLoading = false;
       state.myPosts = action.payload;
     });
+    builder.addCase(fetchNewPost.pending, (state) => {
+      state.isLoading = true;
+    });
     builder.addCase(fetchNewPost.fulfilled, (state, action) => {
-      state.posts.posts.unshift(action.payload.post);
-      state.myPosts.posts.unshift(action.payload.post);
+      const postWithUser: IPost = {
+        ...action.payload.post,
+        user: action.payload.user,
+      };
+
+      state.posts.posts.unshift(postWithUser);
+      state.myPosts.posts.unshift(postWithUser);
+
+      state.isLoading = false;
     });
   },
 });
 
 export default postSlice.reducer;
-export const { toggleLike } = postSlice.actions;
+export const { toggleLike, deletePost } = postSlice.actions;

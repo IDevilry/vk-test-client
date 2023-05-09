@@ -7,7 +7,6 @@
 .userAvatar {
   width: 125px;
   height: 125px;
-  aspect-ratio: 1/1;
   border-radius: 100%;
 }
 
@@ -38,6 +37,7 @@
 .avatarRightSide span {
   font-size: 14px;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .userInfo {
@@ -48,6 +48,12 @@
 }
 
 .text {
+  color: rgb(212, 212, 212);
+  font-size: 18px;
+}
+
+.text span {
+  color: white;
   font-size: 20px;
 }
 
@@ -84,5 +90,4 @@
   .userName {
     font-size: 18px;
   }
-  
 }

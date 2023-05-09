@@ -2,12 +2,17 @@ import { type FC, type ChangeEventHandler, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
 import { fetchNewPost } from "../../redux/asyncThunks/post/fetchNewPost";
 
+import { ImSpinner4 } from "react-icons/im";
+
 import { type INewPost } from "../../types";
 
 import cn from "./newpost.module.css";
 
 const NewPost: FC = () => {
   const { _id } = useAppSelector((state) => state.currentUser.user);
+  
+  const isLoading = useAppSelector((state) => state.posts.isLoading);
+
   const dispatch = useAppDispatch();
 
   const [newPost, setNewPost] = useState<INewPost>();
@@ -15,7 +20,6 @@ const NewPost: FC = () => {
 
   const handleSubmit = () => {
     const formData = new FormData();
-    console.log("submit")
     formData.append("image", image || "");
     formData.append("content", newPost?.content || "");
     formData.append("title", newPost?.title || "");
@@ -52,7 +56,15 @@ const NewPost: FC = () => {
           <label htmlFor="files" className="button">
             Выберите изображение
           </label>
-          <input id="files" style={{ visibility: "hidden" }} type="file" onChange={handleFile} />
+          <input
+            id="files"
+            style={{ visibility: "hidden", width:"0", height:"0" }}
+            type="file"
+            onChange={handleFile}
+          />
+          {isLoading ? <ImSpinner4 style={{
+            width:"50px", height:"50px"
+          }} /> : null}
         </div>
         <div className={cn.right}>
           <button onClick={handleSubmit} type="button" className="button">

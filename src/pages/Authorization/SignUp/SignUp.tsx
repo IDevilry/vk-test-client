@@ -12,20 +12,15 @@ const SignUp: FC = () => {
     user_email: "",
     user_first_name: "",
     user_last_name: "",
-    image: "",
   });
+
+  const [file, setFile] = useState<File>();
 
   const [chekPass, setCheckPass] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (e.target.files?.length) {
-      setUser({
-        ...user,
-        image: e.target.files[0],
-      });
-    }
     setUser({
       ...user,
       [e.target.name]: e.target.value,
@@ -35,12 +30,15 @@ const SignUp: FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if (!file) {
+        return;
+      }
       const formData = new FormData();
       formData.append("password", user.password);
       formData.append("user_email", user.user_email);
       formData.append("user_first_name", user.user_first_name);
       formData.append("user_last_name", user.user_last_name);
-      formData.append("image", user.image);
+      formData.append("image", file);
       const res = await axiosInstance.post("/auth/register", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -62,6 +60,10 @@ const SignUp: FC = () => {
     } else {
       setCheckPass("");
     }
+  };
+
+  const handleFile: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setFile(e.target.files?.length ? e.target.files[0] : undefined);
   };
 
   return (
@@ -100,7 +102,7 @@ const SignUp: FC = () => {
           id="files"
           style={{ visibility: "hidden", position: "absolute", bottom: "0" }}
           type="file"
-          onChange={handleChange}
+          onChange={handleFile}
         />
         <input
           className="input"

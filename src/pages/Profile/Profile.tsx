@@ -41,7 +41,9 @@ const Profile: FC<ProfileProps> = ({ user }) => {
     e.preventDefault();
 
     if (updateUser) {
+      console.log(updateUser);
       dispatch(fetchUpdateUser({ ...updateUser, _id: user._id }));
+      setEdit(false);
     }
   };
 
@@ -87,6 +89,7 @@ const Profile: FC<ProfileProps> = ({ user }) => {
         {isEdit ? (
           <form className={cn.inputsCol} onSubmit={handleSubmit}>
             <input
+              name="description"
               placeholder="О себе"
               className="input"
               onChange={handleChange}
@@ -94,6 +97,7 @@ const Profile: FC<ProfileProps> = ({ user }) => {
               type="text"
             />
             <input
+              name="city"
               placeholder="Город"
               className="input"
               onChange={handleChange}
@@ -101,6 +105,7 @@ const Profile: FC<ProfileProps> = ({ user }) => {
               type="text"
             />
             <input
+              name="age"
               placeholder="Возраст"
               className="input"
               onChange={handleChange}
@@ -113,9 +118,15 @@ const Profile: FC<ProfileProps> = ({ user }) => {
           </form>
         ) : (
           <>
-            <p className={cn.text}>О себе: {user.description}</p>
-            <p className={cn.text}>Город: {user.city}</p>
-            <p className={cn.text}>Возраст: {user.age}</p>
+            <p className={cn.text}>
+              О себе: <span>{user.description}</span>
+            </p>
+            <p className={cn.text}>
+              Город: <span>{user.city}</span>
+            </p>
+            <p className={cn.text}>
+              Возраст: <span>{user.age}</span>
+            </p>
           </>
         )}
       </div>

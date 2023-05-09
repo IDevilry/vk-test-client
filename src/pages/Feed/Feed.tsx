@@ -1,10 +1,14 @@
 import { NewPost, Post } from "../../components";
 
-import { type FC } from "react";
+import { ImSpinner4 } from "react-icons/im";
+import { useAppSelector } from "../../hooks/typedRedux";
 
-import { FeedProps } from "./feed.props";
+import { type FC } from "react";
+import { type FeedProps } from "./feed.props";
 
 const Feed: FC<FeedProps> = ({ posts, isCurrentUser }) => {
+  const isLoading = useAppSelector((state) => state.posts.isLoading);
+
   return (
     <div style={{ width: "100%" }}>
       <div className="widgetContainer">
@@ -19,6 +23,13 @@ const Feed: FC<FeedProps> = ({ posts, isCurrentUser }) => {
               <hr />
             </div>
           ))
+        ) : isLoading ? (
+          <ImSpinner4
+            style={{
+              width: "50px",
+              height: "50px",
+            }}
+          />
         ) : (
           <p>Не найдено ни одного поста :\</p>
         )}

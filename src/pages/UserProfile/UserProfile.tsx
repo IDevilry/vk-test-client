@@ -17,7 +17,7 @@ const UserProfile: FC = () => {
   const userPosts = posts.filter((post) => post.user._id === id);
 
   return (
-    <div>
+    <div className="container">
       <div className={cn.container}>
         <div className={cn.leftSide}>
           <Profile user={user} />

@@ -8,5 +8,4 @@ export interface IUserRegister extends IUserLogin {
   user_email: string;
   user_first_name: string;
   user_last_name: string;
-  image: File | string;
 }

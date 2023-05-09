@@ -21,9 +21,9 @@ const Friends: FC = () => {
   return (
     <div className="widgetContainer">
       <h2>Список друзей</h2>
-      {friends.length ? (
+      {friends?.length ? (
         <>
-          {friends.map((friend) => (
+          {friends?.map((friend) => (
             <div key={friend._id}>
               <NavLink to={`profile/${friend._id}`}>
                 <div className={cn.avatarLeftSide}>

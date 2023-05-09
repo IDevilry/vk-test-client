@@ -5,20 +5,25 @@ import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
 import { toggleFriend } from "../../redux/asyncThunks";
-import { toggleLike } from "../../redux/slices/post/postSlice";
+import { deletePost, toggleLike } from "../../redux/slices/post/postSlice";
 import { checkOnlineStatus } from "../../utils";
 
-import default_user_photo from "../../assets/default_user_photo.jpg";
 import cn from "./post.module.css";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 const Post: FC<PostProps> = ({ post }) => {
   const { user, content, image, likes, _id } = post;
-
   const currentUser = useAppSelector((state) => state.currentUser.user);
   const onlineUsers = useAppSelector((state) => state.users.onlineUsers);
+
   const dispatch = useAppDispatch();
+
+  const isFriend = user.friends?.find(
+    (friend) => friend._id === currentUser._id
+  )
+    ? true
+    : false;
 
   const handleToggleFriend = () => {
     dispatch(toggleFriend({ currUserId: currentUser._id, targetId: user._id }));
@@ -28,7 +33,10 @@ const Post: FC<PostProps> = ({ post }) => {
     dispatch(toggleLike({ userId: currentUser._id, postId: _id }));
   };
 
-  const isFriend = true;
+  const handleDeletePost = () => {
+    dispatch(deletePost({ postId: _id }));
+  };
+
   return (
     <div className={cn.container}>
       <div className={cn.top}>
@@ -40,11 +48,7 @@ const Post: FC<PostProps> = ({ post }) => {
               }
             ></div>
             <img
-              src={
-                user.profile_photo
-                  ? `${API_URL}/${user.profile_photo}`
-                  : default_user_photo
-              }
+              src={`${API_URL}/${user.profile_photo}`}
               alt="User Avatar"
               className={cn.userAvatar}
             />
@@ -60,7 +64,11 @@ const Post: FC<PostProps> = ({ post }) => {
           </div>
         </div>
         <div className={cn.rightSide}>
-          {user._id === currentUser._id ? null : (
+          {user._id === currentUser._id ? (
+            <button onClick={handleDeletePost} type="button" className="button">
+              Удалить пост
+            </button>
+          ) : (
             <button
               onClick={handleToggleFriend}
               type="button"
@@ -73,7 +81,7 @@ const Post: FC<PostProps> = ({ post }) => {
       </div>
       <div className={cn.middle}>
         <p>{content}</p>
-        <img src={`${API_URL}/${image}`} alt={content} />
+        <img className={cn.postImg} src={`${API_URL}/${image}`} alt={content} />
       </div>
       <div className={cn.bottom}>
         <div className={cn.like}>
