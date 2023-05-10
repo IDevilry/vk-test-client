@@ -6,7 +6,7 @@ import { FcLike, FcLikePlaceholder } from "react-icons/fc";
 import { useAppDispatch, useAppSelector } from "../../hooks/typedRedux";
 import { toggleFriend } from "../../redux/asyncThunks";
 import { deletePost, toggleLike } from "../../redux/slices/post/postSlice";
-import { checkOnlineStatus } from "../../utils";
+import { checkOnlineStatus, getRelativeTimeString } from "../../utils";
 
 import cn from "./post.module.css";
 
@@ -36,6 +36,8 @@ const Post: FC<PostProps> = ({ post }) => {
   const handleDeletePost = () => {
     dispatch(deletePost({ postId: _id }));
   };
+
+
 
   return (
     <div className={cn.container}>
@@ -99,6 +101,7 @@ const Post: FC<PostProps> = ({ post }) => {
 
           <p>{likes?.length}</p>
         </div>
+        <span>{getRelativeTimeString(new Date(post.createdAt))}</span>
       </div>
     </div>
   );

@@ -39,6 +39,7 @@ export interface IPost {
   content: string;
   image?: string;
   likes?: string[];
+  createdAt: string;
 }
 
 export interface INewPost {

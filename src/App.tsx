@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, type FC } from "react";
+import { useEffect, type FC, useState } from "react";
 
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { SignIn, SignUp, Chat, UserProfile, UsersList, Feed } from "./pages";
+import Home from "./pages/Home/Home";
+import OnlyPosts from "./pages/Feed/OnlyPosts";
 
 import { PrivateWrapper, Layout } from "./components";
 
@@ -16,14 +18,12 @@ import { fetchFriends } from "./redux/asyncThunks/user/fetchFriends";
 import { fetchChats } from "./redux/asyncThunks/chat/fetchChats";
 import { socket } from "./socket";
 import { useAuth } from "./hooks/useAuth";
-import Home from "./pages/Home/Home";
-import { IUser } from "./types";
+import { IPost, IUser } from "./types";
 import { setOnlineUsers } from "./redux/slices";
-import OnlyPosts from "./pages/Feed/OnlyPosts";
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-
+  const [friendsPosts, setFriendsPosts] = useState<IPost[]>();
   const user = useAppSelector((state) => state.currentUser.user);
   const allPosts = useAppSelector((state) => state.posts.posts.posts);
   const isAuth = useAuth();
@@ -57,6 +57,9 @@ const App: FC = () => {
 
   useEffect(() => {
     dispatch(fetchPosts());
+    setFriendsPosts(
+      allPosts?.filter((post) => post.user.friends?.includes(user))
+    );
   }, [dispatch]);
 
   return (
@@ -87,7 +90,7 @@ const App: FC = () => {
             element={
               <PrivateWrapper>
                 <OnlyPosts>
-                  <Feed posts={allPosts} />
+                  <Feed posts={friendsPosts} />
                 </OnlyPosts>
               </PrivateWrapper>
             }
